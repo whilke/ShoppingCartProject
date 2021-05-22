@@ -116,6 +116,7 @@ namespace ShoppingCart.Service.Data.Migrations
                 name: "IX_Orders_UserId",
                 table: "Orders",
                 column: "UserId");
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

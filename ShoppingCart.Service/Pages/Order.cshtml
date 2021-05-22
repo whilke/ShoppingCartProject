@@ -1,0 +1,44 @@
+﻿@page
+@model ShoppingCart.Service.Pages.OrderModel
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<h1>Cart</h1>
+
+<p>
+    Your Order (#) @Html.DisplayFor(modelItem => modelItem.Order.Id)
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Items[0].Item.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items[0].Item.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items[0].Item.Url)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (OrderItem item in Model.Items)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Price)
+            </td>
+            <td>
+                <a href="@Html.DisplayFor(modelItem => item.Item.Url)" target="_blank">@Html.DisplayFor(modelItem => item.Item.Url)</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

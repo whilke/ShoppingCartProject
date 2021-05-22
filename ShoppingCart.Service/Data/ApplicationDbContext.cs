@@ -18,5 +18,32 @@ namespace ShoppingCart.Service.Data
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Item>().HasData(new Item
+            {
+                Id = 1,
+                Name = "Google",
+                Price = 1.00,
+                Url = "https://www.google.com"
+            });
+            builder.Entity<Item>().HasData(new Item
+            {
+                Id = 2,
+                Name = "Microsoft",
+                Price = 2.00,
+                Url = "https://www.microsoft.com"
+            });
+            builder.Entity<Item>().HasData(new Item
+            {
+                Id = 3,
+                Name = "Yahoo",
+                Price = 3.00,
+                Url = "https://www.yahoo.com"
+            });
+
+            base.OnModelCreating(builder);
+        }
     }
 }

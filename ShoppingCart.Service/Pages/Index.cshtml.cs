@@ -17,9 +17,14 @@ namespace ShoppingCart.Service.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (this.HttpContext.User.Identity.IsAuthenticated)
+            {
+                return this.RedirectToPage("/Cart");
+            }
 
+            return this.Page();
         }
     }
 }
