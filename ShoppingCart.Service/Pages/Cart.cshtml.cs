@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ShoppingCart.Service.Data;
 
 namespace ShoppingCart.Service.Pages
@@ -16,16 +17,22 @@ namespace ShoppingCart.Service.Pages
     {
         private readonly ApplicationDbContext context;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IConfiguration config;
 
-        public CartModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public CartModel(ApplicationDbContext context, UserManager<IdentityUser> userManager, IConfiguration config)
         {
             this.context = context;
             this.userManager = userManager;
+            this.config = config;
+
+            this.PaypalClientId = config["Paypal:clientId"];
 
         }
 
         public Order Order { get;set; }
         public List<OrderItem> Items { get; set; }
+
+        public string PaypalClientId {get; set; }
 
 
         //View current cart

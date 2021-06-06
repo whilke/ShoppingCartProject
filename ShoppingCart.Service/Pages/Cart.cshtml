@@ -49,5 +49,47 @@
         }
     </tbody>
 </table>
-<a asp-page="/Cart" asp-page-handler="delete">Delete Cart</a><br/><br/>
-<a asp-page="/Cart" asp-page-handler="purchase">PURCHASE</a>
+<a asp-page="/Cart" asp-page-handler="delete">Delete Cart</a>
+<br />
+<br />
+<div id="smart-button-container">
+    <div style="text-align: center;">
+        <div id="paypal-button-container"></div>
+    </div>
+</div>
+
+@if (Model.Items?.Count > 0)
+{
+    <script src="https://www.paypal.com/sdk/js?client-id=@(Model.PaypalClientId)&currency=USD" data-sdk-integration-source="button-factory"></script>
+    <script>
+        function initPayPalButton() {
+            paypal.Buttons({
+                style: {
+                    shape: 'pill',
+                    color: 'blue',
+                    layout: 'horizontal',
+                    label: 'paypal',
+                    tagline: true
+                },
+
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{"amount":{"currency_code":"USD","value":@(Model.Items.Sum(i=>i.Count * i.Item.Price))}}]
+                    });
+                },
+
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        //transaction was completed, complete the order
+                        window.location = "/Cart?handler=purchase";
+                    });
+                },
+
+                onError: function(err) {
+                    console.log(err);
+                }
+            }).render('#paypal-button-container');
+        }
+        initPayPalButton();
+    </script>
+}

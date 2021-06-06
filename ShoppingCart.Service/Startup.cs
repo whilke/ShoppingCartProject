@@ -50,7 +50,14 @@ namespace ShoppingCart.Service
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration
-                                         .GetConnectionString("DefaultConnection"));
+                                         .GetConnectionString("DefaultConnection"),
+                                     opt =>
+                                     {
+                                         opt.EnableRetryOnFailure(maxRetryCount: 20,
+                                                                  maxRetryDelay: TimeSpan.FromSeconds(30),
+                                                                  errorNumbersToAdd: null
+                                                                 );
+                                     });
                 options.AddInterceptors(new AzureAdAuthenticationDbConnectionInterceptor());
             });
 
