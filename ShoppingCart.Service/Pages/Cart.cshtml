@@ -18,6 +18,9 @@
                 @Html.DisplayNameFor(model => model.Items[0].Item.Name)
             </th>
             <th>
+                Count
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Items[0].Item.Price)
             </th>
             <th>
@@ -27,19 +30,22 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (OrderItem item in Model.Items)
+        @foreach (var itemGroup in Model.Items.GroupBy(x=>x.Item.Id))
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Item.Price)
-                </td>
-                <td>
-                    <a asp-page="/Cart" asp-page-handler="remove" asp-route-id="@(item.Item.Id)">Remove Item</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @(itemGroup.First().Item.Name)
+            </td>
+            <td>
+                @(itemGroup.Count())
+            </td>
+            <td>
+                @(itemGroup.Sum(x => x.Item.Price))
+            </td>
+            <td>
+                <a asp-page="/Cart" asp-page-handler="remove" asp-route-id="@(itemGroup.First().Id)">Remove Item</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
